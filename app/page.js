@@ -20,7 +20,7 @@ export default function Home() {
     setquery("");
     setstartchat(true);
     setloading(true);
-    const answer = await fetch(process.env.API_URL, {
+    const answer = await fetch("https://custom-chatgpt-seven.vercel.app/api", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(query),
