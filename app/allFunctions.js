@@ -1,7 +1,6 @@
 const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey: "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",
-  dangerouslyAllowBrowser: true,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export default async function main(question) {
@@ -73,5 +72,3 @@ export default async function main(question) {
   const reply = waitForAssistantMessage();
   return reply;
 }
-
-// main();

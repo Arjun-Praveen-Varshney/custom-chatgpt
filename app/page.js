@@ -1,5 +1,4 @@
 "use client";
-import main from "./allFunctions";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
@@ -21,9 +20,14 @@ export default function Home() {
     setquery("");
     setstartchat(true);
     setloading(true);
-    const answer = await main(query);
+    const answer = await fetch("http://localhost:3000/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(query),
+    });
+    const reply = await answer.json();
     setloading(false);
-    appendMessage("bot", answer);
+    appendMessage("bot", reply);
   };
 
   function appendMessage(sender, message) {
