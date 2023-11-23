@@ -9,7 +9,7 @@ export async function POST(request) {
     // console.log(reply);
     return res.json(reply);
   } catch (error) {
-    console.error("Error processing question:", error);
-    return res.json({ error: "Internal Server Error" });
+    // console.error("Error processing question:", error);
+    return res.json({ error: "Internal Server Error", error });
   }
 }
