@@ -26,6 +26,7 @@ export default function Home() {
       body: JSON.stringify(query),
     });
     const reply = await answer.json();
+    console.log(reply);
     setloading(false);
     appendMessage("bot", reply);
   };
