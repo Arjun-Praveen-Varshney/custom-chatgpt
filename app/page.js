@@ -7,6 +7,7 @@ export default function Home() {
   const [startchat, setstartchat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [loading, setloading] = useState(false);
+  const [threadId, setthreadId] = useState("");
 
   const handleChange = (e) => {
     if (e.target.name === "query") {
@@ -23,7 +24,7 @@ export default function Home() {
     const answer = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
+      body: JSON.stringify({ query, threadId }),
     });
     const reply = await answer.json();
     setloading(false);
@@ -37,6 +38,27 @@ export default function Home() {
     };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
   }
+
+  const makeThread = async () => {
+    const answer = await fetch(
+      `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/thread`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const thread_id = await answer.json();
+    return thread_id.id;
+  };
+
+  const createThread = async () => {
+    const thread_Id = await makeThread();
+    setthreadId(thread_Id);
+  };
+
+  useEffect(() => {
+    createThread();
+  }, []);
 
   return (
     <div className="flex text-white h-screen">

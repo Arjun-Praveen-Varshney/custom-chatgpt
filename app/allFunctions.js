@@ -3,14 +3,17 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export default async function main(question) {
-  const myAssistantId = "asst_T53lLMVSICP4OFfpCPEzQVir";
-  let thread_id, run_id;
+const myAssistantId = "asst_T53lLMVSICP4OFfpCPEzQVir";
+let thread_id, run_id;
 
+async function thread() {
   // Create a Thread
   const myThread = await openai.beta.threads.create();
   // console.log("Thread created with ID: ", myThread.id, "\n");
+  return myThread;
+}
 
+async function main(thread_id, question) {
   while (true) {
     if (question.toLowerCase() === "Bye") {
       // console.log("Exiting chat...");
@@ -19,7 +22,7 @@ export default async function main(question) {
 
     // Add a Message to a Thread
     const myThreadMessage = await openai.beta.threads.messages.create(
-      (thread_id = myThread.id),
+      (thread_id = thread_id),
       {
         role: "user",
         content: question,
@@ -28,7 +31,7 @@ export default async function main(question) {
 
     // Run the Assistant
     const myRun = await openai.beta.threads.runs.create(
-      (thread_id = myThread.id),
+      (thread_id = thread_id),
       {
         assistant_id: myAssistantId,
       }
@@ -39,14 +42,14 @@ export default async function main(question) {
     do {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds before checking the status
       keepRetrievingRun = await openai.beta.threads.runs.retrieve(
-        (thread_id = myThread.id),
+        (thread_id = thread_id),
         (run_id = myRun.id)
       );
     } while (keepRetrievingRun.status !== "completed");
 
     // Retrieve the Messages added by the Assistant to the Thread
     const allMessages = await openai.beta.threads.messages.list(
-      (thread_id = myThread.id)
+      (thread_id = thread_id)
     );
 
     const assistantMessage = allMessages.data.find(
@@ -59,3 +62,5 @@ export default async function main(question) {
     }
   }
 }
+
+export { main, thread };

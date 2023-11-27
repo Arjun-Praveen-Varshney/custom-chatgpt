@@ -1,10 +1,9 @@
-import { main } from "../allFunctions";
+import { thread } from "../allFunctions";
 import { NextResponse as res } from "next/server";
 
-export async function POST(request) {
-  const question = await request.json();
+export async function POST() {
   try {
-    const reply = await main(question.threadId, question.query);
+    const reply = await thread();
     // console.log(reply);
     return res.json(reply);
   } catch (error) {
