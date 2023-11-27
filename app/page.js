@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Home() {
