@@ -44,9 +44,15 @@ export default function Home() {
       <div className="bg-chatblack-50 w-10/12">
         <div className="flex flex-col justify-between h-full">
           {!startchat ? (
-            <div className="flex items-center justify-center w-full h-4/5 text-5xl font-semibold">
-              Custom ChatGPT
-            </div>
+            <>
+              <div className="flex items-center justify-center w-full h-4/5 text-5xl font-semibold">
+                VRPlaced
+              </div>
+              <div className="text-xs flex items-center justify-center w-full h-4/5">
+                Ace Your HR Interview - Chat with Our AI Coach Now! Start by
+                saying 'Hello' to begin your journey.
+              </div>
+            </>
           ) : (
             <div id="chat-window" className="overflow-y-auto h-4/5">
               {messages.map((message, index) => (

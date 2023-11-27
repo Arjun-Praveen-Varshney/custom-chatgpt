@@ -4,8 +4,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Customized ChatGPT",
-  description: "Created by MythyaVerse",
+  title: "Experience the Future of Interview Prep with VRPlaced",
+  description:
+    "Ace Your HR Interview - Chat with Our AI Coach Now! Start by saying 'Hello' to begin your journey.",
 };
 
 export default function RootLayout({ children }) {
