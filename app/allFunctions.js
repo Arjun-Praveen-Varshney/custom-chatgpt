@@ -58,7 +58,7 @@ async function main(thread_id, question) {
     if (assistantMessage) {
       return assistantMessage.content[0].text.value;
     } else {
-      alert("Assistant did not respond.");
+      return "Assistant did not respond.";
     }
   }
 }

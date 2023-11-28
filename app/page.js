@@ -8,10 +8,21 @@ export default function Home() {
   const [messages, setMessages] = useState([]);
   const [loading, setloading] = useState(false);
   const [threadId, setthreadId] = useState("");
+  const [textareaRows, setTextareaRows] = useState(1);
 
   const handleChange = (e) => {
     if (e.target.name === "query") {
       setquery(e.target.value);
+      const lines = e.target.value.split("\n").length;
+      setTextareaRows(lines > 4 ? 4 : lines);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    // Check if the Enter key is pressed (key code 13)
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevent the default behavior (e.g., adding a newline)
+      handleSubmit(e); // Call your submit function (you can replace this with the actual function you want to call)
     }
   };
 
@@ -59,6 +70,13 @@ export default function Home() {
   useEffect(() => {
     createThread();
   }, []);
+
+  useEffect(() => {
+    const chatWindow = document.getElementById("chat-window");
+    if (chatWindow) {
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <div className="flex text-white h-screen">
@@ -109,13 +127,14 @@ export default function Home() {
             onSubmit={handleSubmit}
           >
             <div className="bg-gray-500 bg-opacity-25 rounded-xl w-3/5 flex">
-              <input
+              <textarea
                 onChange={handleChange}
                 value={query}
                 className="flex-1 p-4 bg-transparent outline-none hover:cursor-pointer"
                 placeholder="Ask your Query!"
                 name="query"
-                type="text"
+                rows={textareaRows}
+                onKeyDown={handleKeyDown}
               />
               <button type="submit" className="hover:cursor-pointer px-4">
                 <svg
